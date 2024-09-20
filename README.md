@@ -194,5 +194,15 @@ Geramos imagens em sequência para formar uma animação de 7 segundos, nela, di
         fclose(stdout);
     }
     ````
+ - Por fim, ao unirmos os arquivos de imagens, geramos a animação, a qual pode ser encontrada na pasta output
+ 
+![Exemplo de Animação](pp2.gif)
     
-   
+## Projeto no webGL
+### Descrição
+Configuramos um ambiente WebGL para renderizar uma esfera e uma pirâmide em 3D 
+
+
+### Código - Esfera.js   
+- 
+    

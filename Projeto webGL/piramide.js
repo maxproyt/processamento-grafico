@@ -1,10 +1,4 @@
-/*
-==================================================================
 
-Referências: https://www.youtube.com/watch?v=kB0ZVUrI4Aw e https://www.youtube.com/watch?v=3yLL9ADo-ko
-
-==================================================================
-*/
 
 var vertexShaderText = 
 [
