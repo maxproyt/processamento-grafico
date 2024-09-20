@@ -1,2 +1,73 @@
-# processamento-grafico
- trabalho de PG 2024
+# Processamento Gráfico - PP2
+Repositório respectivo aos projetos da disciplina de Processamento Gráfico, este arquivo .README trará a documentação do projeto de Ray tracing, em que desenvolvemos uma curta animação com uso da tecnologia de traçado de raio, e do projeto de webGL, em que plotamos dois objetos 3D no espaço.
+
+## Projeto de Ray tracing
+### Descrição
+Geramos imagens em sequência para formar uma animação de 7 segundos, nela, distribuímos 5 esferas num plano cinza, sendo três esferas maiores e duas menores, duas das esferas maiores se movem lentamente, demonstrando os reflexos da técnica de ray tracing aplicada.
+
+### Código
+
+- Importamos os header files do material "Ray tracing in one weekend" para usarmos como bibliotecas de suporte no desenvolvimento do projeto
+
+- Na main, primeiramente criamos uma lista de hittable objects, os quais são:
+
+	- O chão, criado como um material que espalha a luz de maneira difusa, com cor cinza claro.
+	- Adicionamos uma esfera ao mundo, com 1000 de diâmetro em (0, -1000, 0), criando um chão plano, já que a esfera está bem abaixo da origem da câmera.
+	- Adicionamos uma esfera verde no ponto (1, 0.25, 2) com raio 0.2.
+	- Adicionamos uma esfera azul no ponto (1.5, 0.25, 1.5) com raio 0.2.
+	- Adicionamos uma esfera de vidro no ponto (2, 1, -0.5) com raio 1.
+	- Adicionamos uma esfera marrom no ponto (0, 1, 0) com raio 1.
+	- Adicionamos uma esfera prateada metálica no ponto (0, 1, 2) de raio 1.
+	
+    Trecho respectivo:
+	````
+    hittable_list world;
+
+    auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
+
+    // Criação de outros objetos no mundo...
+    auto sphere_material = make_shared<lambertian>(color(0,1,0));
+    world.add(make_shared<sphere>(point3(1, 0.25, 2), 0.2, sphere_material));
+
+    auto sphere_material2 = make_shared<lambertian>(color(0,0,1)*color(0,0,1));
+    world.add(make_shared<sphere>(point3(1.5, 0.25, 1.5), 0.2, sphere_material2));
+
+    auto material1 = make_shared<dielectric>(1.5);
+    world.add(make_shared<sphere>(point3(2, 1, -0.5), 1.0, material1));
+
+    auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
+    world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material2));
+
+    auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
+    world.add(make_shared<sphere>(point3(0, 1, 2), 1.0, material3)); 
+    ````
+- Depois, criamos um objeto câmera com:
+	- Proporção 16:9
+	- Largura em 1280px
+	- Dez amostras por pixel(AA)
+	- Até 20 reflexões de raios
+	- FOV vertical em 20 graus
+	- Posição (13, 2, 3)
+	- Ponto focal (0,0,0)
+	- Direção da câmera (0,1,0) "pra cima" 
+	- Ângulo de desfoque 0.5
+	- Distância de foco 10
+   
+   Trecho respectivo:
+   ````
+    camera cam;
+
+    cam.aspect_ratio = 16.0 / 9.0;
+    cam.image_width = 1280;
+    cam.samples_per_pixel = 10;
+    cam.max_depth = 20;
+
+    cam.vfov = 20;
+    cam.lookfrom = point3(13, 2, 3);
+    cam.lookat = point3(0, 0, 0);
+    cam.vup = vec3(0, 1, 0);
+
+    cam.defocus_angle = 0.6;
+    cam.focus_dist = 10.0;
+    ````

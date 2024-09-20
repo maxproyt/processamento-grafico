@@ -1,0 +1,3 @@
+C:/Users/mathe/OneDrive/Documentos/codigos/cod C/build/CMakeFiles/MyExecutable.dir
+C:/Users/mathe/OneDrive/Documentos/codigos/cod C/build/CMakeFiles/edit_cache.dir
+C:/Users/mathe/OneDrive/Documentos/codigos/cod C/build/CMakeFiles/rebuild_cache.dir
