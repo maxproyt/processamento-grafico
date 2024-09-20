@@ -105,5 +105,94 @@ Geramos imagens em sequência para formar uma animação de 7 segundos, nela, di
         cam.lookat = point3(0, 1 - i * 0.04, 0);    // Ajuste mais suave
     ````
     
+    
+ - Agora, esse trecho de código cria um novo mundo em cada iteração, adiciona diversas esferas com diferentes materiais, e move a esfera metálica lentamente para a esquerda.
+ 	- Os outros objetos são estáticos, apenas a esfera se move com base na iteração de i em ````world.add(make_shared<sphere>(point3(-frame * 0.1, 1, 2 + frame * 0.11), 1.0, material3)); ````
+ 	- Os arquivos são salvos a cada iteração, assim como nas partes anteriores
+ 	
+    Trecho respectivo:
+    ````
+    	
+    for (int frame = 0; frame < 30; ++frame) {
+        // Cria um novo mundo para cada iteração
+        hittable_list world;
+    
+        auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+        world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
+    
+        // Criação de outros objetos no mundo...
+        auto sphere_material = make_shared<lambertian>(color(0, 1, 0));
+        world.add(make_shared<sphere>(point3(1, 0.25, 2), 0.2, sphere_material));
 
+        auto sphere_material2 = make_shared<lambertian>(color(0,0,1)*color(0,0,1));
+        world.add(make_shared<sphere>(point3(1.5, 0.25, 1.5), 0.2, sphere_material2));
+    
+        auto material1 = make_shared<dielectric>(1.5);
+        world.add(make_shared<sphere>(point3(2, 1, -0.5), 1.0, material1));
+    
+        auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
+        world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material2));
+    
+        auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
+        // Move a bola para a esquerda lentamente
+        world.add(make_shared<sphere>(point3(-frame * 0.1, 1, 2+frame*0.11), 1.0, material3));
+    
+        // Gera um nome de arquivo único para cada imagem
+        std::string filename = "image" + std::to_string(frame+60) + ".ppm";
+    
+        // Redireciona a saída padrão para o arquivo
+        freopen(filename.c_str(), "w", stdout);
+    
+        // Renderiza a imagem e a escreve no arquivo atual
+        cam.render(world);
+    
+        // Fecha o arquivo atual
+        fclose(stdout);
+    }
+    ````
+- Agora, o mesmo trecho acima é repetido, mas para a outra esfera, ela é movida para a direita.
+	- O movimento usa a iteração de i: ```` world.add(make_shared<sphere>(point3(-frame * 0.1, 1, 5.19 ), 1.0, material3));````
+	- Também são salvos os arquivo a cada iteração
+	- As múltiplas iterações geram várias imagens que, quando combinadas, geram a animação
+
+	Trecho respectivo:
+    ````
+    	  for (int frame = 0; frame < 30; ++frame) {
+        // Cria um novo mundo para cada iteração
+        hittable_list world;
+    
+        auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+        world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
+    
+        // Criação de outros objetos no mundo...
+        auto sphere_material = make_shared<lambertian>(color(0, 1, 0));
+        world.add(make_shared<sphere>(point3(1, 0.25, 2), 0.2, sphere_material));
+    
+        auto material1 = make_shared<dielectric>(1.5);
+        world.add(make_shared<sphere>(point3(2, 1, -0.5-frame*0.14), 1.0, material1));
+
+        auto sphere_material2 = make_shared<lambertian>(color(0,0,1)*color(0,0,1));
+        world.add(make_shared<sphere>(point3(1.5, 0.25, 1.5), 0.2, sphere_material2));
+    
+        auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
+        world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material2));
+    
+        auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
+        // Move a bola para a esquerda lentamente
+        world.add(make_shared<sphere>(point3(-frame * 0.1, 1, 5.19 ), 1.0, material3));
+    
+        // Gera um nome de arquivo único para cada imagem
+        std::string filename = "image" + std::to_string(frame+90) + ".ppm";
+    
+        // Redireciona a saída padrão para o arquivo
+        freopen(filename.c_str(), "w", stdout);
+    
+        // Renderiza a imagem e a escreve no arquivo atual
+        cam.render(world);
+    
+        // Fecha o arquivo atual
+        fclose(stdout);
+    }
+    ````
+    
    
