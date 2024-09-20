@@ -196,7 +196,7 @@ Geramos imagens em sequência para formar uma animação de 7 segundos, nela, di
     ````
  - Por fim, ao unirmos os arquivos de imagens, geramos a animação, a qual pode ser encontrada na pasta output
  
-![Exemplo de Animação](pp2.gif)
+![Exemplo de Animação](Raytracing/pp2.gif)
     
 ## Projeto no webGL
 ### Descrição
