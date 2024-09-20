@@ -71,3 +71,39 @@ Geramos imagens em sequência para formar uma animação de 7 segundos, nela, di
     cam.defocus_angle = 0.6;
     cam.focus_dist = 10.0;
     ````
+- Após, começamos com os movimentos da câmera
+	- Utilizamos um loop que incrementa a variável i para movimentar a câmera ao longo dos eixos X e Z: ````cam.lookfrom = point3(13 - i * 0.3, 2, 3 - i * 0.1)````
+	- Mantemos o foco sempre no ponto (0,0,0)
+	- Geramos um arquivo para cada imagem no loop
+
+	Trecho respectivo:
+    ````    // Loop para gerar diferentes imagens(ida)
+    for (int i = 0; i < 30; ++i) {
+        // Ajuste a posição da câmera para dar zoom (aproximar a câmera)
+        // Reduzindo a distância ao longo do eixo Z
+        cam.lookfrom = point3(13 - i * 0.3, 2, 3 - i * 0.1); // Ajuste suave na posição
+        cam.lookat = point3(0, 0, 0); // Manter o foco no mesmo ponto
+
+        // Gera um nome de arquivo único para cada imagem
+        std::string filename = "image" + std::to_string(i) + ".ppm";
+
+        // Redireciona a saída padrão para o arquivo
+        freopen(filename.c_str(), "w", stdout);
+
+        // Renderiza a imagem e a escreve no arquivo atual
+        cam.render(world);
+
+        // Fecha o arquivo atual
+        fclose(stdout);
+    } 
+    ````
+- Fazemos o trajeto de volta para a posição inicial
+	
+    Trecho respectivo:
+    ````        
+    	cam.lookfrom = point3(0.3 + i * 0.5, 2, 3); // Pequenos incrementos para a posição inicial
+        cam.lookat = point3(0, 1 - i * 0.04, 0);    // Ajuste mais suave
+    ````
+    
+
+   
